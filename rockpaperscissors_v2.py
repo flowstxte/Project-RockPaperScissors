@@ -8,25 +8,28 @@ class RockPaperScissorsGame:
     def __init__(self, root):
         self.root = root
         self.root.title("Rock Paper Scissors")
-        self.root.geometry("800x750")  # Further increased window size
+        self.root.geometry("650x600+50+50") 
         self.root.configure(bg="#f0f0f0")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
         
         self.player_score = 0
         self.computer_score = 0
         self.choices = ["rock", "paper", "scissors"]
         
-        # Load images with much larger size (increased to 250x250)
         self.images = {}
         try:
             for choice in self.choices:
-                img_path = f"Projects/Project-RockPapersCissors/images/{choice}.png"
+                img_path = f"images/{choice}.png"
+                
                 if os.path.exists(img_path):
-                    self.images[choice] = ImageTk.PhotoImage(Image.open(img_path).resize((250, 250)))
+                    self.images[choice] = ImageTk.PhotoImage(Image.open(img_path).resize((150, 150)))
                 else:
+                    # If image fails to load, set self.images to None and break
                     self.images = None
                     break
-        except:
+        except Exception as e:
+            # Handle general exceptions during image loading
+            print(f"Error loading images: {e}")
             self.images = None
         
         # Create frames that will persist
@@ -51,14 +54,14 @@ class RockPaperScissorsGame:
         
         # Start button
         start_button = tk.Button(self.main_frame, text="Start Game", font=("Arial", 18), 
-                                command=self.show_game_screen, bg="#4CAF50", fg="white",
-                                padx=30, pady=15)
+                                 command=self.show_game_screen, bg="#4CAF50", fg="white",
+                                 padx=30, pady=15)
         start_button.pack(pady=30)
         
         # Instructions
         instructions = tk.Label(self.main_frame, text="Beat the computer by choosing the winning move!\n"
-                               "Rock crushes Scissors, Scissors cuts Paper, Paper covers Rock",
-                               font=("Arial", 14), bg="#f0f0f0", justify="center")
+                                 "Rock crushes Scissors, Scissors cuts Paper, Paper covers Rock",
+                                 font=("Arial", 14), bg="#f0f0f0", justify="center")
         instructions.pack(pady=30)
         
         # Credits
@@ -71,7 +74,7 @@ class RockPaperScissorsGame:
         
         # Add quit button to control frame
         quit_button = tk.Button(self.control_frame, text="Quit Game", font=("Arial", 14),
-                               command=self.quit_game, bg="#FF6347", padx=10, pady=5)
+                                 command=self.quit_game, bg="#FF6347", padx=10, pady=5)
         quit_button.pack(side=tk.RIGHT, padx=20, pady=5)
         
     def show_game_screen(self):
@@ -84,11 +87,11 @@ class RockPaperScissorsGame:
         score_frame.pack(fill="x", pady=15)
         
         self.player_score_label = tk.Label(score_frame, text=f"Player: {self.player_score}", 
-                                     font=("Arial", 18, "bold"), bg="#f0f0f0")
+                                           font=("Arial", 18, "bold"), bg="#f0f0f0")
         self.player_score_label.pack(side=tk.LEFT, padx=70)
         
         self.computer_score_label = tk.Label(score_frame, text=f"Computer: {self.computer_score}", 
-                                       font=("Arial", 18, "bold"), bg="#f0f0f0")
+                                             font=("Arial", 18, "bold"), bg="#f0f0f0")
         self.computer_score_label.pack(side=tk.RIGHT, padx=70)
         
         # Result display
@@ -103,19 +106,17 @@ class RockPaperScissorsGame:
         
         # Player choice display
         player_frame = tk.Frame(choices_frame, bg="#f0f0f0")
-        player_frame.pack(side=tk.LEFT, padx=70)  # Increased padding
+        player_frame.pack(side=tk.LEFT, padx=70) 
         
         tk.Label(player_frame, text="Player", font=("Arial", 16, "bold"), bg="#f0f0f0").pack()
-        # Remove width and height constraints to allow image to display at full size
         self.player_choice_label = tk.Label(player_frame, bg="#f0f0f0")
         self.player_choice_label.pack(pady=15)
         
         # Computer choice display
         computer_frame = tk.Frame(choices_frame, bg="#f0f0f0")
-        computer_frame.pack(side=tk.RIGHT, padx=70)  # Increased padding
+        computer_frame.pack(side=tk.RIGHT, padx=70)
         
         tk.Label(computer_frame, text="Computer", font=("Arial", 16, "bold"), bg="#f0f0f0").pack()
-        # Remove width and height constraints to allow image to display at full size
         self.computer_choice_label = tk.Label(computer_frame, bg="#f0f0f0")
         self.computer_choice_label.pack(pady=15)
         
@@ -125,15 +126,15 @@ class RockPaperScissorsGame:
         
         # Choice buttons - made larger
         rock_button = tk.Button(buttons_frame, text="Rock", font=("Arial", 14, "bold"),
-                               command=lambda: self.play("rock"), width=12, height=2, bg="#e0e0e0")
+                                 command=lambda: self.play("rock"), width=12, height=2, bg="#e0e0e0")
         rock_button.grid(row=0, column=0, padx=15)
         
         paper_button = tk.Button(buttons_frame, text="Paper", font=("Arial", 14, "bold"),
-                                command=lambda: self.play("paper"), width=12, height=2, bg="#e0e0e0")
+                                 command=lambda: self.play("paper"), width=12, height=2, bg="#e0e0e0")
         paper_button.grid(row=0, column=1, padx=15)
         
         scissors_button = tk.Button(buttons_frame, text="Scissors", font=("Arial", 14, "bold"),
-                                   command=lambda: self.play("scissors"), width=12, height=2, bg="#e0e0e0")
+                                     command=lambda: self.play("scissors"), width=12, height=2, bg="#e0e0e0")
         scissors_button.grid(row=0, column=2, padx=15)
         
         # Update control frame
@@ -142,15 +143,15 @@ class RockPaperScissorsGame:
             
         # Add control buttons - made larger
         back_button = tk.Button(self.control_frame, text="Back to Menu", font=("Arial", 14),
-                              command=self.show_start_screen, bg="#3498db", padx=10, pady=5)
+                                 command=self.show_start_screen, bg="#3498db", padx=10, pady=5)
         back_button.pack(side=tk.LEFT, padx=20, pady=5)
         
         reset_button = tk.Button(self.control_frame, text="Reset Score", font=("Arial", 14),
-                                command=self.reset_score, bg="#FFD700", padx=10, pady=5)
+                                 command=self.reset_score, bg="#FFD700", padx=10, pady=5)
         reset_button.pack(side=tk.LEFT, padx=20, pady=5)
         
         quit_button = tk.Button(self.control_frame, text="Quit Game", font=("Arial", 14),
-                               command=self.quit_game, bg="#FF6347", padx=10, pady=5)
+                                 command=self.quit_game, bg="#FF6347", padx=10, pady=5)
         quit_button.pack(side=tk.RIGHT, padx=20, pady=5)
         
     def play(self, player_choice):
@@ -178,9 +179,11 @@ class RockPaperScissorsGame:
         self.computer_score_label.config(text=f"Computer: {self.computer_score}")
         
     def display_choice(self, label, choice):
+        # Check if images were loaded successfully
         if self.images and choice in self.images:
             label.config(image=self.images[choice])
         else:
+            # Fallback to text if images are not found/loaded
             label.config(text=choice.upper(), font=("Arial", 24, "bold"), image="")
             
     def reset_score(self):
@@ -196,7 +199,8 @@ class RockPaperScissorsGame:
             
 if __name__ == "__main__":
     # Create image directory if it doesn't exist
-    image_dir = "Projects/Project-RockPapersCissors/images"
+    image_dir = "images"
+    
     if not os.path.exists(image_dir):
         os.makedirs(image_dir)
         print(f"Created directory: {image_dir}")
@@ -205,3 +209,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     game = RockPaperScissorsGame(root)
     root.mainloop()
+    
